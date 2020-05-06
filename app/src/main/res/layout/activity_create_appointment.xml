@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:animateLayoutChanges="true"
+    android:gravity="center"
+    android:background="@drawable/bg_gradient"
+    android:id="@+id/createAppointmentLinearLayout"
+    tools:context=".CreatAppointmentActivity">
+
+    <TextView
+        android:paddingTop="12dp"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="60dp"
+        android:textColor="@color/white"
+        android:text="@string/label_create_appointment"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"></TextView>
+
+    <include layout="@layout/card_view_step_one"></include>
+    <include layout="@layout/card_view_step_two"></include>
+    <include layout="@layout/card_view_step_three"></include>
+
+</LinearLayout>

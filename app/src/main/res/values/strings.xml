@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">S.R Citas</string>
+    <string name="label_login">Inicio de Sesión</string>
+    <string name="label_email">Correo</string>
+    <string name="label_password">Clave</string>
+    <string name="label_go_to_register">¿Aún no te has registrado?</string>
+    <string name="label_register">Registro</string>
+    <string name="label_name">Nombre Completo</string>
+    <string name="label_go_to_login">¿Ya tiene una Cuenta?</string>
+    <string name="please_fill_your_register_data">Por favor completa tus datos</string>
+    <string name="btn_create_appointment">Reservar Cita</string>
+    <string name="btn_register">Confirmar Registro</string>
+    <string name="btn_login">Ingresar</string>
+    <string name="btn_my_appointments">Mis Citas</string>
+    <string name="btn_log_out">Cerrar Sesión</string>
+    <string name="label_welcome">Bienvenido</string>
+    <string name="label_create_appointment">Reservar Cita</string>
+    <string name="label_description">Descripción</string>
+    <string name="label_specialty">Especialidad</string>
+    <string name="label_type">Tipo de Cita</string>
+    <string name="type1">Consulta</string>
+    <string name="type2">Examen</string>
+    <string name="type3">Operación</string>
+    <string name="btn_next">Siguiente</string>
+    <string name="label_doctor">Médico</string>
+    <string name="label_schedule_date">Fecha para Cita</string>
+    <string name="btn_confirm">Confirmar</string>
+
+    <string name="date_format">%1$d-%2$s-%3$s</string>
+    <string name="item_appointment_id">Cita Médica %1$d</string>
+    <string name="item_appointment_date">Atención el día %1$s</string>
+    <string name="item_appointment_time">A las %1$s</string>
+    <string name="press_back_again">Presione una ves más para salir</string>
+    <string name="dialog_create_appointmet_exit_title">¿Estás seguro que deseas salir?</string>
+    <string name="dialog_creat_appointment_exit_message">Si abandonas el registro, los datos que habías ingresado se perderán.</string>
+    <string name="dialog_create_appointement_exit_negative_btn">Continuar registro</string>
+    <string name="dialog_create_appointement_exit_positive_btn">Sí, salir</string>
+    <string name="validate_appointment_description">La Descripción es demasiado corta</string>
+    <string name="label_schedule_time">Hora de la cita</string>
+    <string name="label_confirm_appointment_data">Confirmar datos de la cita</string>
+    <string name="validate_appointment_date">Es necesario seleccionar una fecha</string>
+    <string name="validate_appointment_time">Es necesario definir una hora para la cita</string>
+</resources>
