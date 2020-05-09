@@ -1,10 +1,11 @@
-package com.example.myappointments.ManuelMendozaRomo
+package com.example.myappointments.ManuelMendozaRomo.ui
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.myappointments.ManuelMendozaRomo.PreferenceHelper
 import com.example.myappointments.ManuelMendozaRomo.PreferenceHelper.set
+import com.example.myappointments.ManuelMendozaRomo.R
 import kotlinx.android.synthetic.main.activity_menu.*
 
 class MenuActivity : AppCompatActivity() {
@@ -35,7 +36,10 @@ class MenuActivity : AppCompatActivity() {
         editor.putBoolean("session", false)
         editor.apply()
          */
-        val preferences = PreferenceHelper.defaultPrefs(this)
+        val preferences =
+            PreferenceHelper.defaultPrefs(
+                this
+            )
         preferences["session"] = false
     }
 }

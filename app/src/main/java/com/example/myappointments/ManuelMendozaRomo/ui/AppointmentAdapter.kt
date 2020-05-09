@@ -1,9 +1,11 @@
-package com.example.myappointments.ManuelMendozaRomo
+package com.example.myappointments.ManuelMendozaRomo.ui
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myappointments.ManuelMendozaRomo.Appointment
+import com.example.myappointments.ManuelMendozaRomo.R
 import kotlinx.android.synthetic.main.item_appointment.view.*
 
 class AppointmentAdapter(private val appointments: ArrayList<Appointment>)
@@ -23,7 +25,11 @@ class AppointmentAdapter(private val appointments: ArrayList<Appointment>)
     //Inflate XML items
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_appointment,parent,false)
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_appointment,
+                parent,
+                false
+            )
         )
     }
     //Bind data

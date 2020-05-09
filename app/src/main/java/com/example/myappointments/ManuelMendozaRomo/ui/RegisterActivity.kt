@@ -1,9 +1,9 @@
-package com.example.myappointments.ManuelMendozaRomo
+package com.example.myappointments.ManuelMendozaRomo.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.myappointments.ManuelMendozaRomo.R
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {

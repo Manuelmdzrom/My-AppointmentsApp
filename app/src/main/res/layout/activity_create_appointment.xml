@@ -10,7 +10,7 @@
     android:gravity="center"
     android:background="@drawable/bg_gradient"
     android:id="@+id/createAppointmentLinearLayout"
-    tools:context=".CreatAppointmentActivity">
+    tools:context=".ui.CreatAppointmentActivity">
 
     <TextView
         android:paddingTop="12dp"

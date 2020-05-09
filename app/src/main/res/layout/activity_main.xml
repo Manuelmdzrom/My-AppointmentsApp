@@ -8,7 +8,7 @@
     android:padding="16dp"
     android:background="@drawable/bg_gradient"
     android:id="@+id/mainLayout"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <TextView
         android:layout_width="match_parent"

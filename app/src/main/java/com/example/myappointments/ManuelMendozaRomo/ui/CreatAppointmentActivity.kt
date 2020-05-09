@@ -1,4 +1,4 @@
-package com.example.myappointments.ManuelMendozaRomo
+package com.example.myappointments.ManuelMendozaRomo.ui
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -8,15 +8,26 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.Toast
+import com.example.myappointments.ManuelMendozaRomo.R
+import com.example.myappointments.ManuelMendozaRomo.io.ApiService
+import com.example.myappointments.ManuelMendozaRomo.model.Specialty
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_create_appointment.*
 import kotlinx.android.synthetic.main.card_view_step_one.*
 import kotlinx.android.synthetic.main.card_view_step_one.cvStep1
 import kotlinx.android.synthetic.main.card_view_step_three.*
 import kotlinx.android.synthetic.main.card_view_step_two.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 class CreatAppointmentActivity : AppCompatActivity() {
+
+    private val apiService: ApiService by lazy {
+        ApiService.create()
+    }
 
     private var selectedcalendar = Calendar.getInstance()
     private var selectedTimeRadioBtn: RadioButton? = null
@@ -41,7 +52,8 @@ class CreatAppointmentActivity : AppCompatActivity() {
                 etScheduleDate.error = getString(R.string.validate_appointment_date)
             } else if (selectedTimeRadioBtn?.text.toString().isEmpty()) //validar que un radio button este seleccionado
             {
-                Snackbar.make(createAppointmentLinearLayout, R.string.validate_appointment_time, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(createAppointmentLinearLayout,
+                    R.string.validate_appointment_time, Snackbar.LENGTH_SHORT).show()
             } else {
                 //Continue Step Two
                 showAppointmentDataToConfirm()
@@ -55,11 +67,36 @@ class CreatAppointmentActivity : AppCompatActivity() {
             finish() // Close activities
         }
 
-        val specialtiesOptions = arrayOf("Specialty A","Specialty B","Specialty C")
-        spinnerSpecialties.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, specialtiesOptions)
+        loadSpecialties()
 
         val doctorsOptions = arrayOf("Doctor A","Docotr B","Doctor C")
         spinnerDoctors.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, doctorsOptions)
+    }
+
+    private fun loadSpecialties(){
+        val call = apiService.getSpecialties()
+        call.enqueue(object : Callback<ArrayList<Specialty>>{
+            override fun onFailure(call: Call<ArrayList<Specialty>>, t: Throwable) {
+                Toast.makeText(this@CreatAppointmentActivity, getString(R.string.error_login_specialties), Toast.LENGTH_SHORT).show()
+                finish()
+            }
+
+            override fun onResponse(call: Call<ArrayList<Specialty>>,response: Response<ArrayList<Specialty>>) {
+                if (response.isSuccessful) { // 200...300
+                    val specialties = response.body()
+
+                    val specialtyOptions = ArrayList<String>()
+
+                    specialties?.forEach {
+                        specialtyOptions.add(it.name)
+                    }
+                    spinnerSpecialties.adapter = ArrayAdapter<String>(this@CreatAppointmentActivity, android.R.layout.simple_list_item_1, specialtyOptions)
+                }
+            }
+        })
+        //Se cargaba el spinner de manera constante
+        //val specialtiesOptions = arrayOf("Specialty A","Specialty B","Specialty C")
+        //spinnerSpecialties.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, specialtiesOptions)
     }
 
     private fun showAppointmentDataToConfirm(){
@@ -175,3 +212,4 @@ class CreatAppointmentActivity : AppCompatActivity() {
         }
     }
 }
+

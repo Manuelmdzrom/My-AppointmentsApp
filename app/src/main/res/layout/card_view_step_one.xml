@@ -9,7 +9,7 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp"
     app:contentPadding="12dp"
-    tools:context=".CreatAppointmentActivity">
+    tools:context=".ui.CreatAppointmentActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
