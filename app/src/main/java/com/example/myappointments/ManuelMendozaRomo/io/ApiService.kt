@@ -1,5 +1,6 @@
 package com.example.myappointments.ManuelMendozaRomo.io
 
+import com.example.myappointments.ManuelMendozaRomo.Appointment
 import com.example.myappointments.ManuelMendozaRomo.io.response.LoginResponse
 import com.example.myappointments.ManuelMendozaRomo.model.Doctor
 import com.example.myappointments.ManuelMendozaRomo.model.Schedule
@@ -27,6 +28,10 @@ interface ApiService {
 
     @POST("logout")
     fun postLogout(@Header("Authorization") authHeader: String): Call<Void>
+
+    @GET("appointments")
+    fun getAppointments(@Header("Authorization") authHeader: String):
+            Call<ArrayList<Appointment>>
 
     companion object Factory {
         private const val BASE_URL = "http://161.35.136.222/api/"
