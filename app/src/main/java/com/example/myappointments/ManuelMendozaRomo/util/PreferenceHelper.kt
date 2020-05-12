@@ -1,4 +1,4 @@
-package com.example.myappointments.ManuelMendozaRomo
+package com.example.myappointments.ManuelMendozaRomo.util
 
 import android.content.Context
 import android.content.SharedPreferences

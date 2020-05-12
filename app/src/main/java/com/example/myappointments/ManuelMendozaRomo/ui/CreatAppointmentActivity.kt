@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -12,6 +14,7 @@ import android.widget.Toast
 import com.example.myappointments.ManuelMendozaRomo.R
 import com.example.myappointments.ManuelMendozaRomo.io.ApiService
 import com.example.myappointments.ManuelMendozaRomo.model.Doctor
+import com.example.myappointments.ManuelMendozaRomo.model.Schedule
 import com.example.myappointments.ManuelMendozaRomo.model.Specialty
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_create_appointment.*
@@ -73,6 +76,69 @@ class CreatAppointmentActivity : AppCompatActivity() {
         listenSpecialtiesChanges()
         //val doctorsOptions = arrayOf("Doctor A","Docotr B","Doctor C")
         //spinnerDoctors.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, doctorsOptions)
+        listenDoctorAndDateChanges()
+    }
+    
+    private fun listenDoctorAndDateChanges(){
+        // doctors
+        spinnerDoctors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, id: Long
+            ) {
+                val doctor = adapter?.getItemAtPosition(position) as Doctor
+                loadHours(doctor.id, etScheduleDate.text.toString())
+                Toast.makeText(this@CreatAppointmentActivity, doctor.name, Toast.LENGTH_SHORT).show()
+            }
+        }
+        //Schedule Data
+        etScheduleDate.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val doctor= spinnerDoctors.selectedItem as Doctor
+                loadHours(doctor.id, etScheduleDate.text.toString())
+            }
+        })
+    }
+    
+    private fun loadHours(doctorId:Int, date: String){
+        if (date.isEmpty()){
+            return
+        }
+
+        val call = apiService.getHours(doctorId, date)
+        call.enqueue(object: Callback<Schedule> {
+            override fun onFailure(call: Call<Schedule>, t: Throwable) {
+                Toast.makeText(this@CreatAppointmentActivity,getString(R.string.error_loading_hours),Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResponse(call: Call<Schedule>, response: Response<Schedule>) {
+                if (response.isSuccessful){
+                    val schedule = response.body()
+                    //Toast.makeText(this@CreatAppointmentActivity, "morning: ${schedule?.morning?.size} , afternoon: ${schedule?.afternoon?.size}", Toast.LENGTH_SHORT).show()
+                    schedule?.let {
+                        tvSelectDoctorAndDate.visibility = View.GONE
+
+                        val intervals = it.morning + it.afternoon
+                        val hours = ArrayList<String>()
+                        intervals.forEach{ interval ->
+                            hours.add(interval.start)
+                        }
+                        displayIntervalRadios(hours)
+                    }
+                }
+            }
+        })
+        //Toast.makeText(this, "doctor: $doctorId, date: $date",Toast.LENGTH_SHORT).show()
     }
 
     private fun loadSpecialties(){
@@ -151,16 +217,16 @@ class CreatAppointmentActivity : AppCompatActivity() {
             //Toast.makeText(this, "$y-$m-$d", Toast.LENGTH_SHORT).show()
             //Pasar la decha al EditText
             selectedcalendar.set(y, m, d)
+
             etScheduleDate.setText(
                 resources.getString(
                     R.string.date_format,
                     y,
-                    m.twoDigits(),
+                    (m+1).twoDigits(),
                     d.twoDigits()
                 )
             )
             etScheduleDate.error = null
-            displayRadioButtons()
         }
         //min date
         //Max date
@@ -179,7 +245,7 @@ class CreatAppointmentActivity : AppCompatActivity() {
 
     }
 
-    private fun displayRadioButtons(){
+    private fun displayIntervalRadios(hours: ArrayList<String>){
         //radioGroup.clearCheck()
         //radioGroup.removeAllViews()
         //radioGroupLeft.checkedRadioButtonId
@@ -187,7 +253,13 @@ class CreatAppointmentActivity : AppCompatActivity() {
         radioGroupLeft.removeAllViews()
         radioGroupRight.removeAllViews()
 
-        val hours = arrayOf("3:00 PM","3:30 PM","4:00 PM","4:30 PM")
+        if(hours.isEmpty()){
+            tvNotAvailableHours.visibility = View.VISIBLE
+            return
+        }
+
+        tvNotAvailableHours.visibility = View.GONE
+        //val hours = arrayOf("3:00 PM","3:30 PM","4:00 PM","4:30 PM")
         var goToLeft = true
         //foreach para cada hora y agregar a cada radio button
         hours.forEach{
