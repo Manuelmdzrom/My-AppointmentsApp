@@ -35,6 +35,7 @@ class AppointmentsActivity : AppCompatActivity() {
         rvAppointments.layoutManager = LinearLayoutManager(this)  //GridLayoutManager
         rvAppointments.adapter = appointmentAdapter
     }
+
     private fun loadAppointments(){
         val jwt = preferences["jwt", ""]
         val call = apiService.getAppointments("Bearer $jwt")

@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
     private fun performLogin(){
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()
