@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "119240650136",
+    "firebase_url": "https://my-appointments-6c11f.firebaseio.com",
+    "project_id": "my-appointments-6c11f",
+    "storage_bucket": "my-appointments-6c11f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119240650136:android:f9fd7fd49e0c834e438fed",
+        "android_client_info": {
+          "package_name": "com.example.myappointments.Manuel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119240650136-d7iperovhpd04d7t9i4lsplsmsd1gune.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2qoj6Abg2Q3lXDPFPFf2WroU7STAh9Io"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119240650136-d7iperovhpd04d7t9i4lsplsmsd1gune.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

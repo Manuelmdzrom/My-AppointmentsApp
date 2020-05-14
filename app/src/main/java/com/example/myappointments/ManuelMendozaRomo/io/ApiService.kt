@@ -46,7 +46,7 @@ interface ApiService {
     @POST("appointments")
     @Headers("Accept: application/json")
     fun storeAppointment
-                (@Header("Authorization") authHeader: String,
+                 (@Header("Authorization") authHeader: String,
                  @Query("description") description : String,
                  @Query("specialty_id") specialty_id : Int,
                  @Query("doctor_id") doctor_id : Int,
@@ -54,6 +54,12 @@ interface ApiService {
                  @Query("schedule_time") schedule_time : String,
                  @Query("type")type : String
                          ): Call<SimpleResponse>
+
+    @POST("fcm/token")
+    fun postToken(
+        @Header("Authorization") authHeader: String,
+        @Query("device_token") token : String
+    ): Call<Void>
 
     companion object Factory {
         private const val BASE_URL = "http://161.35.136.222/api/"

@@ -4,15 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper
-import kotlinx.android.synthetic.main.activity_main.*
-import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper.get
-import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper.set
 import com.example.myappointments.ManuelMendozaRomo.R
 import com.example.myappointments.ManuelMendozaRomo.io.ApiService
 import com.example.myappointments.ManuelMendozaRomo.io.response.LoginResponse
+import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper
+import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper.get
+import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper.set
 import com.example.myappointments.ManuelMendozaRomo.util.toast
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                     if (loginResponse.success){
                         createSessionPreferences(loginResponse.jwt)
                         toast(getString(R.string.welcome_name, loginResponse.user.name))
-                        goToMenuActivity()
+                        goToMenuActivity(true)
                     }   else{
                         toast(getString(R.string.error_invalid_credentials))
                     }
@@ -106,8 +106,13 @@ class MainActivity : AppCompatActivity() {
         preferences["jwt"] = jwt
     }
 
-    private fun goToMenuActivity(){
+    private fun goToMenuActivity(isUserInput: Boolean = false){
         val intent = Intent(this, MenuActivity::class.java)
+
+        if (isUserInput) {
+            intent.putExtra("store_token", true)
+        }
+
         startActivity(intent)
         finish()
     }
@@ -118,4 +123,7 @@ class MainActivity : AppCompatActivity() {
         else
             snackBar.show()
     }
+
+    /// code aplcaied for me
+
 }

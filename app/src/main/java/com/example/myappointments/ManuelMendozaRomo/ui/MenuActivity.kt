@@ -1,14 +1,16 @@
 package com.example.myappointments.ManuelMendozaRomo.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper
-import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper.set
-import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper.get
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myappointments.ManuelMendozaRomo.R
 import com.example.myappointments.ManuelMendozaRomo.io.ApiService
+import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper
+import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper.get
+import com.example.myappointments.ManuelMendozaRomo.util.PreferenceHelper.set
 import com.example.myappointments.ManuelMendozaRomo.util.toast
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_menu.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,6 +30,10 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
+        val storeToken =intent.getBooleanExtra("store_token", false)
+        if(storeToken)
+            storeToken()
+
         btnCreateAppointment.setOnClickListener {
             val intent = Intent (this, CreatAppointmentActivity::class.java)
             startActivity(intent)
@@ -42,6 +48,31 @@ class MenuActivity : AppCompatActivity() {
             val intent = Intent (this, MainActivity::class.java)
             startActivity(intent)
             finish()
+        }
+    }
+
+    private fun storeToken(){
+        val jwt = preferences["jwt", ""]
+        val authHeader = "Bearer $jwt"
+
+        //Firebase Instance
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
+            val deviceToken = instanceIdResult.token
+            val call = apiService.postToken(authHeader, deviceToken)
+            call.enqueue(object : Callback<Void>{
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    toast(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful){
+                        Log.d(Companion.TAG, "Token registrado correctamente")
+                    } else {
+                        Log.d(Companion.TAG, "Hubo un problema al registrar el token")
+                    }
+                }
+
+            })
         }
     }
 
@@ -71,5 +102,9 @@ class MenuActivity : AppCompatActivity() {
         editor.apply()
          */
         preferences["jwt"] = ""
+    }
+
+    companion object {
+        private const val TAG = "MenuActivity"
     }
 }
